@@ -15,25 +15,10 @@ def calculate_area_and_perimeter(entities):
             end = entity.dxf.end
             # Perimeter is just the length of the line
             perimeter = math.sqrt((end.x - start.x) ** 2 + (end.y - start.y) ** 2)
-            total_area += 0  # Area is zero for lines
             total_perimeter += perimeter
             points.append((start.x, start.y))
             points.append((end.x, end.y))
             print(f"Added LINE points: {start.x, start.y}, {end.x, end.y}")  # Debug print
-            num_points = len(points)
-            if num_points > 1:
-                for i in range(num_points):
-                    x1, y1 = points[i]
-                    x2, y2 = points[(i + 1) % num_points]  # Wrap around to the first point
-                    # Calculate perimeter (distance between consecutive points)
-                    #points.append((x1, y1))
-                    #points.append((x2, y2))
-                    #print(f"Added SPLINE points: {x1, y1}, {x2, y2}")  # Debug print
-                    
-                    # Calculate area using the Shoelace Theorem
-                    total_area += x1 * y2 - x2 * y1
-                    print(f"Intermediate LINE area: {total_area}")  # Debug print
-            total_area = abs(total_area) / 2  # Absolute value and divide by 2
 
         elif entity.dxftype() == 'SPLINE':
             # For splines, we approximate the spline as a series of line segments
@@ -79,7 +64,7 @@ def calculate_area_and_perimeter(entities):
     return total_area, total_perimeter
 
 # Load your DXF file
-dxf_file = "sus.dxf"
+dxf_file = "sample.dxf"
 doc = ezdxf.readfile(dxf_file)
 
 # Check the units used in the DXF file
